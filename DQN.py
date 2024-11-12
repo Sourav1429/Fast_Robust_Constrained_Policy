@@ -89,8 +89,8 @@ class DQNAgent:
         states,actions,rewards,next_states,dones = experiences
         Q_targets_next = self.Qnetwork_local(next_states).detach().max(1)[0].unsqueeze(1)
         Q_targets = rewards + self.discount_factor*Q_targets_next
-        print(actions.view(-1,1).int())
-        Q_expected = self.Qnetwork_local(states).gather(1,actions.view(-1,1))
+        #print(actions.view(-1,1).int())
+        Q_expected = self.Qnetwork_local(states).gather(1,actions.view(-1,1).long())
         loss = F.mse_loss(Q_expected,Q_targets)
         self.optimizer.zero_grad()
         loss.backward()
