@@ -37,11 +37,15 @@ if __name__ == "__main__":
     epsilon = epsilon_start
     def select_action(state, epsilon):
       if random.random() < epsilon:
+          #print("No problem 1")
           return np.random.choice(action_size)  # Random action
       else:
           with torch.no_grad():
+              print("Printing state")
+              print(state)
               state = torch.FloatTensor(state).unsqueeze(0)
               q_values = qnetwork(state)
+              print("no problem 2")
       return q_values.argmax().item()
     
     def experience_replay(batch_size):
@@ -50,6 +54,8 @@ if __name__ == "__main__":
         batch = random.sample(memory, batch_size)
         states, actions, rewards, next_states, dones = zip(*batch)
         
+        print("reached here")
+        print(states)
         states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions).unsqueeze(1)
         rewards = torch.FloatTensor(rewards)
@@ -77,15 +83,20 @@ if __name__ == "__main__":
     for episode in range(num_episodes):
         state = env.reset()
         total_reward = 0
-        
+        print("One step start")
         for t in range(200):
             action = select_action(state, epsilon)
-            next_state, cost, terminated, truncated,cost, _ = env.step(action)
+            #print("Here is the problem1")
+            next_state, cost, terminated, truncated,utility, _ = env.step(action)
+            #print("Here is the problem2")
             reward = -cost
             done = terminated or truncated
             total_reward += reward
             
             # Store experience in replay memory
+            print("Printing state")
+            print(state)
+            break
             memory.append((state, action, reward, next_state, float(done)))
             state = next_state
             
