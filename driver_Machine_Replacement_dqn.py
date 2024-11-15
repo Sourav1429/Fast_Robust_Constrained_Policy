@@ -80,7 +80,7 @@ if __name__ == "__main__":
         
         for t in range(200):
             action = select_action(state, epsilon)
-            next_state, cost, terminated, truncated, _ = env.step(action)
+            next_state, cost, terminated, truncated,cost, _ = env.step(action)
             reward = -cost
             done = terminated or truncated
             total_reward += reward
