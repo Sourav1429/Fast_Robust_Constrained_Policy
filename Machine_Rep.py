@@ -57,7 +57,7 @@ class gym_MR_env:
         self.t=0
         self.dstate = self.init_state
         self.state = self.one_hot(self.init_state)
-        return self.init_state
+        return self.state
     
     def step(self,action):
         rew = self.R[self.dstate,action]
