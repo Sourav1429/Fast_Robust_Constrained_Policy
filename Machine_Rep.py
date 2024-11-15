@@ -63,7 +63,7 @@ class gym_MR_env:
         rew = self.R[self.dstate,action]
         cost = self.C[self.dstate,action]
         next_state = np.random.choice(self.P[action,int(np.max(self.state)),:])
-        self.dstate = next_state
+        self.dstate = int(next_state)
         done = False
         if(self.t==self.T):
             done = True
