@@ -1,3 +1,4 @@
+import numpy as np
 class perturb:
   def __init__(self,model,epsilon,n_actions,discretization_rate):
     self.model = model
