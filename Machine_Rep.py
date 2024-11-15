@@ -55,18 +55,20 @@ class gym_MR_env:
         
     def reset(self):
         self.t=0
+        self.dstate = self.init_state
         self.state = self.one_hot(self.init_state)
         return self.init_state
     
     def step(self,action):
-        rew = self.R[self.state,action]
-        cost = self.C[self.state,action]
-        next_state = np.random.choice(self.P[action,np.max(self.state),:])
+        rew = self.R[self.dstate,action]
+        cost = self.C[self.dstate,action]
+        next_state = np.random.choice(self.P[action,int(np.max(self.state)),:])
+        self.dstate = next_state
         done = False
         if(self.t==self.T):
             done = True
         trunc = False
-        return rew,self.one_hot(next_state),done,trunc,cost,None
+        return rew,self.one_hot(int(next_state)),done,trunc,cost,None
     
     def observation_space_size(self):
         return len(self.P[0,0,:])
