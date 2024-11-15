@@ -24,7 +24,7 @@ class DQN(nn.Module):
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
         return self.fc3(x)
-
+'''
 # Hyperparameters
 state_size = 4                # For CartPole-v1 environment
 action_size = 2               # Number of actions
@@ -117,3 +117,4 @@ for episode in range(num_episodes):
 env.close()
 torch.save(target_network,"target_dqn_model")
 torch.save(qnetwork,"qnetwork_dqn_model")
+'''

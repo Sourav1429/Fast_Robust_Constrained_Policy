@@ -6,7 +6,7 @@ Created on Thu Nov 14 18:00:18 2024
 """
 import numpy as np
 class Machine_Replacement:
-    def __init__(self,rep_cost=0.7,safety_cost=0.8,nS=4,nA=2):
+    def __init__(self,rep_cost=0.7,safety_cost=0.5,nS=4,nA=2):
         self.nS = nS;
         self.nA = nA;
         self.cost = np.linspace(0.1, 0.99,nS);
@@ -41,3 +41,34 @@ class Machine_Replacement:
             self.C[0,i] = self.cost[i];
             self.C[1,i] = self.safety_cost + self.cost[0];
         return self.C;
+    
+class gym_MR_env:
+    def __init__(self,mr_obj,init_state,T):
+        self.P,self.R,self.C = mr_obj.gen_probability(),mr_obj.gen_expected_reward(),mr_obj.gen_expected_cost()
+        self.init_state = init_state
+        self.T = T
+    
+    def one_hot(self,s):
+        one_hot_state = np.zeros(self.observation_space_size())
+        one_hot_state[s] = 1
+        
+    def reset(self):
+        self.t=0
+        self.state = self.one_hot(self.init_state)
+        return self.init_state
+    
+    def step(self,action):
+        rew = self.R[self.state,action]
+        cost = self.C[self.state,action]
+        next_state = np.random.choice(self.P[action,self.state,:])
+        done = False
+        if(self.t==self.T):
+            done = True
+        trunc = False
+        return rew,self.one_hot(next_state),done,trunc,cost,None
+    
+    def observation_space_size(self):
+        return len(self.P[0,0,:])
+    
+    def action_space_size(self):
+        return self.P.shape[0]
