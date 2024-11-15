@@ -51,6 +51,7 @@ class gym_MR_env:
     def one_hot(self,s):
         one_hot_state = np.zeros(self.observation_space_size())
         one_hot_state[s] = 1
+        return one_hot_state
         
     def reset(self):
         self.t=0
@@ -60,7 +61,7 @@ class gym_MR_env:
     def step(self,action):
         rew = self.R[self.state,action]
         cost = self.C[self.state,action]
-        next_state = np.random.choice(self.P[action,self.state,:])
+        next_state = np.random.choice(self.P[action,np.max(self.state),:])
         done = False
         if(self.t==self.T):
             done = True
