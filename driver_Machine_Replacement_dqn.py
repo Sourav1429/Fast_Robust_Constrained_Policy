@@ -19,7 +19,7 @@ if __name__ == "__main__":
     init_state = 0
     T = 1000
     env = gym_MR_env(mr_obj,init_state,T)
-    state_size,action_size = env.observation_space_size,env.action_space_size()
+    state_size,action_size = env.observation_space_size(),env.action_space_size()
     seed = 0
     batch_size = 64               # Batch size for experience replay
     gamma = 0.99                  # Discount factor
@@ -36,13 +36,13 @@ if __name__ == "__main__":
     memory = deque(maxlen=2000)
     epsilon = epsilon_start
     def select_action(state, epsilon):
-    if random.random() < epsilon:
-        return env.action_space.sample()  # Random action
-    else:
-        with torch.no_grad():
-            state = torch.FloatTensor(state).unsqueeze(0)
-            q_values = qnetwork(state)
-            return q_values.argmax().item()
+      if random.random() < epsilon:
+          return np.random.choice(action_size)  # Random action
+      else:
+          with torch.no_grad():
+              state = torch.FloatTensor(state).unsqueeze(0)
+              q_values = qnetwork(state)
+      return q_values.argmax().item()
     
     def experience_replay(batch_size):
         if len(memory) < batch_size:
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     target_update_frequency = 10
     
     for episode in range(num_episodes):
-        state, _ = env.reset()
+        state = env.reset()
         total_reward = 0
         
         for t in range(200):
