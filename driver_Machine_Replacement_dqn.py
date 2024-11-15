@@ -41,11 +41,11 @@ if __name__ == "__main__":
           return np.random.choice(action_size)  # Random action
       else:
           with torch.no_grad():
-              print("Printing state")
-              print(state)
+              #print("Printing state")
+              #print(state)
               state = torch.FloatTensor(state).unsqueeze(0)
               q_values = qnetwork(state)
-              print("no problem 2")
+              #print("no problem 2")
       return q_values.argmax().item()
     
     def experience_replay(batch_size):
@@ -80,14 +80,14 @@ if __name__ == "__main__":
     num_episodes = 1000
     target_update_frequency = 10
     
-    for episode in range(num_episodes):
+    for episode in range(num_episodes):#changed num_episodes to 2
         state = env.reset()
         total_reward = 0
-        print("One step start")
-        for t in range(200):
+        #print("One step start")
+        for t in range(200):#changed 200 to 2
             action = select_action(state, epsilon)
             #print("Here is the problem1")
-            next_state, cost, terminated, truncated,utility, _ = env.step(action)
+            cost, next_state, terminated, truncated,utility, _ = env.step(action)
             #print("Here is the problem2")
             reward = -cost
             done = terminated or truncated
@@ -96,6 +96,9 @@ if __name__ == "__main__":
             # Store experience in replay memory
             #print("Printing state")
             #print(state)
+            #break
+            #print("Printing action")
+            #print(action)
             #break
             memory.append((state, action, reward, next_state, float(done)))
             state = next_state
@@ -115,6 +118,6 @@ if __name__ == "__main__":
         
         print(f"Episode {episode}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}")
     
-    env.close()
+    #env.close()
     torch.save(target_network,"target_dqn_model_Machine_Replacement")
     torch.save(qnetwork,"qnetwork_dqn_model_Machine_Replacement")
