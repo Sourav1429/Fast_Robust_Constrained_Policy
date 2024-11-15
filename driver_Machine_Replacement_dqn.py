@@ -54,8 +54,8 @@ if __name__ == "__main__":
         batch = random.sample(memory, batch_size)
         states, actions, rewards, next_states, dones = zip(*batch)
         
-        print("reached here")
-        print(states)
+        #print("reached here")
+        #print(states)
         states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions).unsqueeze(1)
         rewards = torch.FloatTensor(rewards)
@@ -94,9 +94,9 @@ if __name__ == "__main__":
             total_reward += reward
             
             # Store experience in replay memory
-            print("Printing state")
-            print(state)
-            break
+            #print("Printing state")
+            #print(state)
+            #break
             memory.append((state, action, reward, next_state, float(done)))
             state = next_state
             
