@@ -5,7 +5,7 @@ Created on Wed Nov 13 17:49:11 2024
 @author: gangu
 """
 import numpy as np
-from Machine_Rep import Machine_Replacement
+#from Machine_Rep import Machine_Replacement
 class min_value_func:
     def __init__(self,P_set,n_actions,actions,init_state,gamma):
         self.P_set = P_set
@@ -32,7 +32,7 @@ class min_value_func:
         pos = np.argmin(vf)
         return (vf[pos],pos)
 
-mr_obj = Machine_Replacement();
+'''mr_obj = Machine_Replacement();
 P,R = mr_obj.gen_probability(),mr_obj.gen_expected_reward()
 print(P)
 print(R)
@@ -54,6 +54,6 @@ Q = 0.95*np.dot(np.transpose(policy[0]),np.transpose(preparedP))
 print(Q)
 
 model = min_value_func(P, len(actions), actions, 0, 0.95)
-print(model.find_vf(preparedP,preparedR,policy))
+print(model.find_vf(preparedP,preparedR,policy))'''
             
         
