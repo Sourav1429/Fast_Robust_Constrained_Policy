@@ -159,9 +159,18 @@ class RiverSwimEnv(gym.Env):
 
         self.state = 0  # Start at the first state
 
-    def reset(self, seed=None):
-        np.random.seed(seed)
-        self.state = 0
+    def reset(self, seed=None, options=None):
+        """
+        Resets the environment to an initial state.
+        Args:
+            seed (int, optional): Random seed for reproducibility.
+            options (dict, optional): Additional options for reset (currently unused).
+        Returns:
+            state (int): The initial state.
+        """
+        if seed is not None:
+            np.random.seed(seed)
+        self.state = 0  # Reset to the initial state
         return self.state
 
     def step(self, action):
